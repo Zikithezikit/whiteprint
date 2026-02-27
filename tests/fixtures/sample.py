@@ -1,5 +1,8 @@
 """Sample module for testing whiteprint."""
 
+from dataclasses import dataclass
+
+from __future__ import annotations
 from typing import Optional
 
 
@@ -56,3 +59,9 @@ class Owner:
     def adopt(self, animal: Animal) -> None:
         """Adopt a pet."""
         self.pet = animal
+
+@dataclass
+class Zoo:
+    "the zoo class"
+
+    pet: Animal

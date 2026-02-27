@@ -1,61 +1,73 @@
-<mxfile host="Drawpyo" modified="2026-02-27T19:34:02" agent="Python 3.12, Drawpyo 0.23" version="21.6.5" type="device">
-  <diagram name="Page-1" id="134594228652992">
+<mxfile host="Drawpyo" modified="2026-02-27T19:51:54" agent="Python 3.12, Drawpyo 0.23" version="21.6.5" type="device">
+  <diagram name="Page-1" id="129184901403504">
     <mxGraphModel dx="2037" dy="830" grid="1" gridSize="10" guides="1" toolTips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="134594225117312" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898522176" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="50" y="50" width="324" height="110" as="geometry" />
 </mxCell>
-        <mxCell id="134594225957696" value="Animal" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898522080" value="Animal" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="50" y="50" width="324" height="30" as="geometry" />
 </mxCell>
-        <mxCell id="134594225117648" value="+ name: str&#xa;+ age: int" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898522320" value="+ name: str&#xa;+ age: int" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="50" y="80" width="324" height="40" as="geometry" />
 </mxCell>
-        <mxCell id="134594225117840" value="- __init__(self: Any, name: Any): None&#xa;+ speak(self: Any): str" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898522512" value="- __init__(self: Any, name: Any): None&#xa;+ speak(self: Any): str" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="50" y="120" width="324" height="40" as="geometry" />
 </mxCell>
-        <mxCell id="134594225118032" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898522752" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="424" y="50" width="420" height="90" as="geometry" />
 </mxCell>
-        <mxCell id="134594225118176" value="Dog" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898522896" value="Dog" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="424" y="50" width="420" height="30" as="geometry" />
 </mxCell>
-        <mxCell id="134594225118320" value="+ breed: str" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898523040" value="+ breed: str" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="424" y="80" width="420" height="20" as="geometry" />
 </mxCell>
-        <mxCell id="134594225118464" value="- __init__(self: Any, name: Any, breed: Any): None&#xa;+ speak(self: Any): str" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898523184" value="- __init__(self: Any, name: Any, breed: Any): None&#xa;+ speak(self: Any): str" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="424" y="100" width="420" height="40" as="geometry" />
 </mxCell>
-        <mxCell id="134594225118608" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898523328" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="894" y="50" width="428" height="90" as="geometry" />
 </mxCell>
-        <mxCell id="134594225118752" value="Cat" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898523472" value="Cat" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="894" y="50" width="428" height="30" as="geometry" />
 </mxCell>
-        <mxCell id="134594225118896" value="+ indoor: bool" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898523616" value="+ indoor: bool" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="894" y="80" width="428" height="20" as="geometry" />
 </mxCell>
-        <mxCell id="134594225119088" value="- __init__(self: Any, name: Any, indoor: Any): None&#xa;+ speak(self: Any): str" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898523760" value="- __init__(self: Any, name: Any, indoor: Any): None&#xa;+ speak(self: Any): str" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="894" y="100" width="428" height="40" as="geometry" />
 </mxCell>
-        <mxCell id="134594225119280" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898523952" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="50" y="220" width="324" height="110" as="geometry" />
 </mxCell>
-        <mxCell id="134594225119472" value="Owner" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898524192" value="Owner" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="50" y="220" width="324" height="30" as="geometry" />
 </mxCell>
-        <mxCell id="134594225119616" value="+ name: str&#xa;+ pet: Optional[Animal]" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898524336" value="+ name: str&#xa;+ pet: Optional[Animal]" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="50" y="250" width="324" height="40" as="geometry" />
 </mxCell>
-        <mxCell id="134594225119760" value="- __init__(self: Any, name: Any): None&#xa;+ adopt(self: Any, animal: Any): None" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+        <mxCell id="129184898524480" value="- __init__(self: Any, name: Any): None&#xa;+ adopt(self: Any, animal: Any): None" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
   <mxGeometry x="50" y="290" width="324" height="40" as="geometry" />
 </mxCell>
-        <mxCell id="134594225119904" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;endArrow=block;endFill=0;strokeWidth=1;" edge="1" parent="1" source="1" target="1">
+        <mxCell id="129184898524624" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="424" y="220" width="180" height="50" as="geometry" />
+</mxCell>
+        <mxCell id="129184898524768" value="Zoo" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="424" y="220" width="180" height="30" as="geometry" />
+</mxCell>
+        <mxCell id="129184898524912" value="+ pet: Animal" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="424" y="250" width="180" height="20" as="geometry" />
+</mxCell>
+        <mxCell id="129184898525056" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;endArrow=block;endFill=0;strokeWidth=1;" edge="1" parent="1" source="1" target="1">
   <mxGeometry relative="1" as="geometry" />
 </mxCell>
-        <mxCell id="134594225120000" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;endArrow=block;endFill=0;strokeWidth=1;" edge="1" parent="1" source="1" target="1">
+        <mxCell id="129184898525104" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;endArrow=block;endFill=0;strokeWidth=1;" edge="1" parent="1" source="1" target="1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+        <mxCell id="129184898525248" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;endArrow=diamond;endFill=1;strokeWidth=1;" edge="1" parent="1" source="1" target="1">
   <mxGeometry relative="1" as="geometry" />
 </mxCell>
       </root>

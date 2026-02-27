@@ -208,21 +208,21 @@ class DrawIoExporter:
     def _set_edge_style(self, edge: Edge, rel_type: RelationshipType) -> None:
         """Set edge style based on relationship type."""
         edge.strokeColor = "black"
-        edge.strokeWidth = "1"
+        edge.strokeWidth = 1
 
         if rel_type == RelationshipType.INHERITANCE:
-            edge.endArrow = "block"
+            edge.line_end_target = "block"
         elif rel_type == RelationshipType.IMPLEMENTATION:
-            edge.endArrow = "block"
+            edge.line_end_target = "block"
             edge.pattern = "dashed_medium"
         elif rel_type == RelationshipType.COMPOSITION:
-            edge.endArrow = "diamond"
-            edge.endFill = True
+            edge.line_end_target = "diamond"
+            edge.endFill_target = True
         elif rel_type == RelationshipType.AGGREGATION:
-            edge.endArrow = "diamond"
-            edge.endFill = False
+            edge.line_end_target = "diamond"
+            edge.endFill_target = False
         elif rel_type == RelationshipType.ASSOCIATION:
-            edge.endArrow = "classic"
+            edge.line_end_target = "classic"
 
 
 def export_uml(
