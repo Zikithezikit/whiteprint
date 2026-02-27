@@ -1,11 +1,15 @@
 """Draw.io exporter for UML diagrams."""
 
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from drawpyo import File, Page
 from drawpyo.diagram import Object as DrawObject, Edge
 
 from whiteprint.model import RelationshipType, UmlClass, UmlRelationship
+
+if TYPE_CHECKING:
+    from drawpyo.diagram.base_diagram import DiagramBase
 
 
 class DrawIoExporter:
@@ -32,18 +36,34 @@ class DrawIoExporter:
         class_sizes = self._calculate_class_sizes(classes)
         positions = self._calculate_positions(classes, class_sizes)
 
+        class_objects: dict[str, "DiagramBase"] = {}
+
         for cls in classes:
             width, height = class_sizes[cls.name]
-            self._add_class_shape(page, cls, *positions[cls.name], width, height)
+            class_obj = self._add_class_shape(page, cls, *positions[cls.name], width, height)
+            class_objects[cls.name] = class_obj
 
         class_lookup = {cls.name: cls for cls in classes}
 
         for rel in relationships:
             source_cls = class_lookup.get(rel.source)
             target_cls = class_lookup.get(rel.target)
-            if source_cls and target_cls and rel.source in positions and rel.target in positions:
+            if (
+                source_cls
+                and target_cls
+                and rel.source in positions
+                and rel.target in positions
+                and rel.source in class_objects
+                and rel.target in class_objects
+            ):
                 self._add_relationship_edge(
-                    page, rel, positions[rel.source], positions[rel.target], class_sizes
+                    page,
+                    rel,
+                    class_objects[rel.source],
+                    class_objects[rel.target],
+                    positions[rel.source],
+                    positions[rel.target],
+                    class_sizes,
                 )
 
         file.write(file_path=str(output_path.parent), file_name=output_path.name)
@@ -110,7 +130,7 @@ class DrawIoExporter:
 
     def _add_class_shape(
         self, page: Page, cls: "UmlClass", x: int, y: int, width: int, height: int
-    ) -> None:
+    ) -> "DiagramBase":
         """Add a UML class shape to the page."""
         header_height = self.HEADER_HEIGHT
         attr_height = max(len(cls.attributes) * self.LINE_HEIGHT, 20)
@@ -130,7 +150,7 @@ class DrawIoExporter:
         border_color = "#6c8ebf"
         fill_color = "#dae8fc"
 
-        DrawObject(
+        class_obj = DrawObject(
             page=page,
             value="",
             position=(x, y),
@@ -167,10 +187,14 @@ class DrawIoExporter:
                 style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;",
             )
 
+        return class_obj
+
     def _add_relationship_edge(
         self,
         page: Page,
         rel: UmlRelationship,
+        source_obj: "DiagramBase",
+        target_obj: "DiagramBase",
         source_pos: tuple[int, int],
         target_pos: tuple[int, int],
         class_sizes: dict[str, tuple[int, int]],
@@ -202,6 +226,9 @@ class DrawIoExporter:
                 (target_center_x, target_center_y),
             ],
         )
+
+        edge.source = source_obj
+        edge.target = target_obj
 
         self._set_edge_style(edge, rel.type)
 
