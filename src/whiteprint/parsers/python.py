@@ -19,11 +19,26 @@ class PythonParser(Parser):
         if path.is_file():
             return [path] if path.suffix == ".py" else []
 
-        pattern = "test_*.py" if include_tests else "[!test]*.py"
-        return sorted(path.rglob(pattern))
+        all_files = sorted(path.rglob("*.py"))
+        if include_tests:
+            return all_files
+        return [f for f in all_files if not f.stem.startswith("test")]
 
-    def parse(self, path: Path) -> list[UmlClass]:
-        """Parse a Python file and extract UML classes."""
+    def parse_directory(self, path: Path, include_tests: bool = False) -> list[UmlClass]:
+        """Parse all source files in a directory."""
+        source_root = path if path.is_dir() else path.parent
+        classes = []
+        for file_path in self._get_source_files(path, include_tests):
+            classes.extend(self.parse(file_path, source_root=source_root))
+        return classes
+
+    def parse(self, path: Path, source_root: Path | None = None) -> list[UmlClass]:
+        """Parse a Python file and extract UML classes.
+
+        Args:
+            path: Path to the Python file
+            source_root: Root directory of the source (for computing module paths)
+        """
         if not path.exists():
             return []
 
@@ -38,11 +53,12 @@ class PythonParser(Parser):
             return []
 
         module_name = path.stem
+        full_module_path = self._get_full_module_path(path, source_root)
         classes = []
 
         for node in ast.walk(tree):
             if isinstance(node, ast.ClassDef):
-                cls = self._parse_class(node, module_name, str(path))
+                cls = self._parse_class(node, module_name, full_module_path, str(path), source_root)
                 if cls:
                     classes.append(cls)
 
@@ -51,7 +67,26 @@ class PythonParser(Parser):
 
         return classes
 
-    def _parse_class(self, node: ast.ClassDef, module: str, file_path: str) -> Optional[UmlClass]:
+    def _get_full_module_path(self, path: Path, source_root: Path | None = None) -> str:
+        """Compute full module path from file path."""
+        if source_root is None:
+            return path.stem
+
+        try:
+            rel_path = path.relative_to(source_root)
+            parts = [*rel_path.parts[:-1], path.stem]
+            return ".".join(parts)
+        except ValueError:
+            return path.stem
+
+    def _parse_class(
+        self,
+        node: ast.ClassDef,
+        module: str,
+        full_module_path: str,
+        file_path: str,
+        _source_root: Path | None = None,
+    ) -> Optional[UmlClass]:
         base_names = []
         for base in node.bases:
             if isinstance(base, ast.Name):
@@ -79,6 +114,7 @@ class PythonParser(Parser):
             attributes=attributes,
             methods=methods,
             module=module,
+            full_module_path=full_module_path,
             file_path=file_path,
             is_interface=is_interface,
             is_abstract=is_abstract,

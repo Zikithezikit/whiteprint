@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import ClassVar, Optional
+from typing import ClassVar
 
 
 class Visibility(Enum):
@@ -63,6 +63,13 @@ class UmlClass:
     is_interface: bool = False
     is_abstract: bool = False
     base_classes: list[str] = field(default_factory=list)
+    full_module_path: str = ""
+
+    def get_qualified_name(self) -> str:
+        """Return fully qualified name (module.ClassName)."""
+        if self.module:
+            return f"{self.module}.{self.name}"
+        return self.name
 
     def __post_init__(self) -> None:
         if self.is_abstract:
@@ -135,47 +142,99 @@ class RelationshipDetector:
 
         return type_str
 
-    def detect(self, classes: list[UmlClass]) -> list[UmlRelationship]:
-        relationships = []
-        class_names = {c.name for c in classes}
+    def _build_class_lookup(
+        self, classes: list[UmlClass]
+    ) -> tuple[dict[str, list[UmlClass]], dict[str, UmlClass]]:
+        """Build lookup tables for class resolution across files."""
+        by_name: dict[str, list[UmlClass]] = {}
+        by_qualified: dict[str, UmlClass] = {}
 
         for cls in classes:
+            if cls.name not in by_name:
+                by_name[cls.name] = []
+            by_name[cls.name].append(cls)
+
+            if cls.full_module_path:
+                by_qualified[cls.full_module_path] = cls
+
+        return by_name, by_qualified
+
+    def _resolve_class(
+        self,
+        name: str,
+        by_name: dict[str, list[UmlClass]],
+        by_qualified: dict[str, UmlClass],
+        source_module: str = "",
+    ) -> UmlClass | None:
+        """Resolve a class name to a UmlClass, checking cross-file references."""
+        if name in by_name:
+            candidates = by_name[name]
+            if len(candidates) == 1:
+                return candidates[0]
+            for c in candidates:
+                if c.module == source_module:
+                    return c
+            return candidates[0]
+
+        if source_module and f"{source_module}.{name}" in by_qualified:
+            return by_qualified[f"{source_module}.{name}"]
+
+        for qualified_name, cls in by_qualified.items():
+            if qualified_name.endswith(f".{name}"):
+                return cls
+
+        return None
+
+    def detect(self, classes: list[UmlClass]) -> list[UmlRelationship]:
+        relationships = []
+        by_name, by_qualified = self._build_class_lookup(classes)
+
+        for cls in classes:
+            source_module = cls.module
+
             for base in cls.base_classes:
-                if base in class_names:
+                resolved = self._resolve_class(base, by_name, by_qualified, source_module)
+                if resolved and resolved.name != cls.name:
                     rel_type = RelationshipType.INHERITANCE
-                    if self._is_trait(base):
+                    if resolved.is_interface or self._is_trait(resolved.name):
                         rel_type = RelationshipType.IMPLEMENTATION
                     relationships.append(
                         UmlRelationship(
                             source=cls.name,
-                            target=base,
+                            target=resolved.name,
                             type=rel_type,
                         )
                     )
 
             for attr in cls.attributes:
                 inner_type = self._extract_inner_type(attr.type)
-                if inner_type in class_names:
-                    rel_type = self._classify_attribute(attr.type, classes)
-                    relationships.append(
-                        UmlRelationship(
-                            source=cls.name,
-                            target=inner_type,
-                            type=rel_type,
-                        )
-                    )
-
-            for method in cls.methods:
-                for param_type in method.parameters:
-                    inner_type = self._extract_inner_type(param_type[1])
-                    if inner_type in class_names:
+                if inner_type in by_name:
+                    resolved = self._resolve_class(inner_type, by_name, by_qualified, source_module)
+                    if resolved and resolved.name != cls.name:
+                        rel_type = self._classify_attribute(attr.type, classes)
                         relationships.append(
                             UmlRelationship(
                                 source=cls.name,
-                                target=inner_type,
-                                type=RelationshipType.ASSOCIATION,
+                                target=resolved.name,
+                                type=rel_type,
                             )
                         )
+
+            for method in cls.methods:
+                for _param_name, param_type in method.parameters:
+                    inner_type = self._extract_inner_type(param_type)
+                    if inner_type in by_name:
+                        resolved = self._resolve_class(
+                            inner_type, by_name, by_qualified, source_module
+                        )
+                        if resolved and resolved.name != cls.name:
+                            relationships.append(
+                                UmlRelationship(
+                                    source=cls.name,
+                                    target=resolved.name,
+                                    type=RelationshipType.ASSOCIATION,
+                                )
+                            )
 
         return relationships
 
@@ -191,7 +250,7 @@ class RelationshipDetector:
         if not name:
             return False
         if self.language == "python":
-            return name.startswith("I") or name.endswith("Protocol") or name.endswith("Interface")
+            return name.startswith("I") or name.endswith(("Protocol", "Interface"))
         if self.language == "rust":
             return name[0].isupper() and not name.endswith("Error")
         return False

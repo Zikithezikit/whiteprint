@@ -23,14 +23,18 @@ lint:
 uml:
 	whiteprint ./tests/fixtures/sample.py -o ./tests/fixtures/sample.drawio
 	whiteprint ./tests/fixtures/sample.rs -o ./tests/fixtures/sample_rust.drawio
+	mkdir -p tests/fixtures/multifile_out
+	whiteprint ./tests/fixtures/multifile -o ./tests/fixtures/multifile_out/multifile.drawio -l python
 
 view:
 	@echo "Python: tests/fixtures/sample.drawio"
 	@echo "Rust:   tests/fixtures/sample_rust.drawio"
+	@echo "Multi-file: tests/fixtures/multifile_out/multifile.drawio"
 
 open: uml
 	xdg-open "$(PWD)/tests/fixtures/sample.drawio" 2>/dev/null || open "$(PWD)/tests/fixtures/sample.drawio" 2>/dev/null || echo "Opened $(PWD)/tests/fixtures/sample.drawio"
 	xdg-open "$(PWD)/tests/fixtures/sample_rust.drawio" 2>/dev/null || open "$(PWD)/tests/fixtures/sample_rust.drawio" 2>/dev/null || echo "Opened $(PWD)/tests/fixtures/sample_rust.drawio"
+	xdg-open "$(PWD)/tests/fixtures/multifile_out/multifile.drawio" 2>/dev/null || open "$(PWD)/tests/fixtures/multifile_out/multifile.drawio" 2>/dev/null || echo "Opened $(PWD)/tests/fixtures/multifile_out/multifile.drawio"
 
 watch:
 	@echo "Watching for changes... (press Ctrl+C to stop)"
