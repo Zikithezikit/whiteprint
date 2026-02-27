@@ -62,12 +62,12 @@ class DrawIoExporter:
 
         class_name = cls.name
         if cls.is_interface:
-            class_name = f"<<interface>>\\n{class_name}"
+            class_name = f"<<interface>>\n{class_name}"
         if cls.is_abstract:
-            class_name = f"<<abstract>>\\n{class_name}"
+            class_name = f"<<abstract>>\n{class_name}"
 
-        attr_text = "\\n".join(str(a) for a in cls.attributes)
-        method_text = "\\n".join(str(m) for m in cls.methods)
+        attr_text = "\n".join(str(a) for a in cls.attributes)
+        method_text = "\n".join(str(m) for m in cls.methods)
 
         border_color = "#6c8ebf"
         fill_color = "#dae8fc"
