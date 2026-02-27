@@ -63,10 +63,11 @@ def main(
                 )
                 sys.exit(1)
         else:
-            for ext in [".py", ".rs"]:
+            ext_to_lang = {".py": "python", ".rs": "rust"}
+            for ext, lang in ext_to_lang.items():
                 files = list(source.rglob(f"*{ext}"))
                 if files:
-                    language = ext[1:]
+                    language = lang
                     break
             else:
                 click.echo(

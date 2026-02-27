@@ -4,7 +4,7 @@ import ast
 from pathlib import Path
 from typing import Optional
 
-from whiteprint.model import UmlAttribute, UmlClass, UmlMethod, Visibility
+from whiteprint.model import Import, UmlAttribute, UmlClass, UmlMethod, Visibility
 from whiteprint.parsers.base import Parser
 
 
@@ -55,11 +55,13 @@ class PythonParser(Parser):
         module_name = path.stem
         full_module_path = self._get_full_module_path(path, source_root)
         classes = []
+        imports = self._parse_imports(tree, path, source_root)
 
         for node in ast.walk(tree):
             if isinstance(node, ast.ClassDef):
                 cls = self._parse_class(node, module_name, full_module_path, str(path), source_root)
                 if cls:
+                    cls.imports = imports
                     classes.append(cls)
 
         for cls in classes:
@@ -231,3 +233,51 @@ class PythonParser(Parser):
             else:
                 resolved.append(base)
         return resolved
+
+    def _parse_imports(
+        self, tree: ast.AST, file_path: Path, source_root: Path | None = None
+    ) -> list[Import]:
+        """Parse all import statements from the AST."""
+        imports = []
+
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ImportFrom):
+                module = node.module or ""
+                if module.startswith("."):
+                    if source_root:
+                        try:
+                            rel_path = file_path.parent.relative_to(source_root)
+                            pkg_parts = rel_path.parts
+                            rel_module = module.lstrip(".")
+                            if rel_module:
+                                module = ".".join(pkg_parts) + "." + rel_module
+                            else:
+                                module = ".".join(pkg_parts)
+                        except ValueError:
+                            pass
+
+                for alias in node.names:
+                    import_names = [alias.name]
+                    import_alias = alias.asname if alias.asname else None
+                    imports.append(
+                        Import(
+                            module=module,
+                            names=import_names,
+                            alias=import_alias,
+                        )
+                    )
+
+            elif isinstance(node, ast.Import):
+                for alias in node.names:
+                    module = alias.name
+                    import_alias = alias.asname if alias.asname else None
+                    parts = module.split(".")
+                    imports.append(
+                        Import(
+                            module=module,
+                            names=[parts[0]],
+                            alias=import_alias,
+                        )
+                    )
+
+        return imports

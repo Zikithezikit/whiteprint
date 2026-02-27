@@ -54,6 +54,20 @@ class UmlMethod:
 
 
 @dataclass
+class Import:
+    """Represents an import statement."""
+
+    module: str
+    names: list[str]
+    alias: str | None = None
+
+    def __repr__(self) -> str:
+        if self.alias:
+            return f"from {self.module} import {', '.join(self.names)} as {self.alias}"
+        return f"from {self.module} import {', '.join(self.names)}"
+
+
+@dataclass
 class UmlClass:
     name: str
     attributes: list[UmlAttribute] = field(default_factory=list)
@@ -64,6 +78,7 @@ class UmlClass:
     is_abstract: bool = False
     base_classes: list[str] = field(default_factory=list)
     full_module_path: str = ""
+    imports: list[Import] = field(default_factory=list)
 
     def get_qualified_name(self) -> str:
         """Return fully qualified name (module.ClassName)."""
@@ -159,11 +174,26 @@ class RelationshipDetector:
 
         return by_name, by_qualified
 
+    def _build_import_lookup(self, classes: list[UmlClass]) -> dict[str, tuple[str, str]]:
+        """Build lookup table from imports: alias -> (module, name)."""
+        import_lookup: dict[str, tuple[str, str]] = {}
+
+        for cls in classes:
+            for imp in cls.imports:
+                for name in imp.names:
+                    if imp.alias:
+                        import_lookup[imp.alias] = (imp.module, name)
+                    else:
+                        import_lookup[name] = (imp.module, name)
+
+        return import_lookup
+
     def _resolve_class(
         self,
         name: str,
         by_name: dict[str, list[UmlClass]],
         by_qualified: dict[str, UmlClass],
+        import_lookup: dict[str, tuple[str, str]],
         source_module: str = "",
     ) -> UmlClass | None:
         """Resolve a class name to a UmlClass, checking cross-file references."""
@@ -179,6 +209,16 @@ class RelationshipDetector:
         if source_module and f"{source_module}.{name}" in by_qualified:
             return by_qualified[f"{source_module}.{name}"]
 
+        if name in import_lookup:
+            module, orig_name = import_lookup[name]
+            if module in by_qualified:
+                cls = by_qualified[module]
+                if cls.name == orig_name:
+                    return cls
+            for qualified_name, cls in by_qualified.items():
+                if qualified_name == module and cls.name == orig_name:
+                    return cls
+
         for qualified_name, cls in by_qualified.items():
             if qualified_name.endswith(f".{name}"):
                 return cls
@@ -188,12 +228,15 @@ class RelationshipDetector:
     def detect(self, classes: list[UmlClass]) -> list[UmlRelationship]:
         relationships = []
         by_name, by_qualified = self._build_class_lookup(classes)
+        import_lookup = self._build_import_lookup(classes)
 
         for cls in classes:
             source_module = cls.module
 
             for base in cls.base_classes:
-                resolved = self._resolve_class(base, by_name, by_qualified, source_module)
+                resolved = self._resolve_class(
+                    base, by_name, by_qualified, import_lookup, source_module
+                )
                 if resolved and resolved.name != cls.name:
                     rel_type = RelationshipType.INHERITANCE
                     if resolved.is_interface or self._is_trait(resolved.name):
@@ -208,8 +251,10 @@ class RelationshipDetector:
 
             for attr in cls.attributes:
                 inner_type = self._extract_inner_type(attr.type)
-                if inner_type in by_name:
-                    resolved = self._resolve_class(inner_type, by_name, by_qualified, source_module)
+                if inner_type in by_name or inner_type in import_lookup:
+                    resolved = self._resolve_class(
+                        inner_type, by_name, by_qualified, import_lookup, source_module
+                    )
                     if resolved and resolved.name != cls.name:
                         rel_type = self._classify_attribute(attr.type, classes)
                         relationships.append(
@@ -223,9 +268,9 @@ class RelationshipDetector:
             for method in cls.methods:
                 for _param_name, param_type in method.parameters:
                     inner_type = self._extract_inner_type(param_type)
-                    if inner_type in by_name:
+                    if inner_type in by_name or inner_type in import_lookup:
                         resolved = self._resolve_class(
-                            inner_type, by_name, by_qualified, source_module
+                            inner_type, by_name, by_qualified, import_lookup, source_module
                         )
                         if resolved and resolved.name != cls.name:
                             relationships.append(
