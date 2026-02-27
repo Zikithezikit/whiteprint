@@ -51,9 +51,7 @@ class PythonParser(Parser):
 
         return classes
 
-    def _parse_class(
-        self, node: ast.ClassDef, module: str, file_path: str
-    ) -> Optional[UmlClass]:
+    def _parse_class(self, node: ast.ClassDef, module: str, file_path: str) -> Optional[UmlClass]:
         base_names = []
         for base in node.bases:
             if isinstance(base, ast.Name):
@@ -105,9 +103,9 @@ class PythonParser(Parser):
         params = []
         args = node.args
         all_args = list(args.posonlyargs) + list(args.args)
-        
-        annotations = getattr(args, 'annotations', []) or []
-        
+
+        annotations = getattr(args, "annotations", []) or []
+
         for i, arg in enumerate(all_args):
             param_type = "Any"
             if annotations and i < len(annotations):
@@ -151,6 +149,8 @@ class PythonParser(Parser):
                 return f"{base}[{args}]"
             if isinstance(node.slice, ast.Constant):
                 return f"{base}[{node.slice.value}]"
+            if isinstance(node.slice, ast.Name):
+                return f"{base}[{node.slice.id}]"
             return f"{base}[...]"
         if isinstance(node, ast.BinOp):
             left = self._get_type_annotation(node.left)
@@ -184,9 +184,7 @@ class PythonParser(Parser):
                     return True
         return False
 
-    def _resolve_bases(
-        self, base_names: list[str], all_classes: list[UmlClass]
-    ) -> list[str]:
+    def _resolve_bases(self, base_names: list[str], all_classes: list[UmlClass]) -> list[str]:
         resolved = []
         class_names = {c.name for c in all_classes}
         for base in base_names:
