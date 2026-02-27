@@ -83,7 +83,8 @@ class TestDrawIoExporter:
             UmlClass(name="C", attributes=[], methods=[]),
             UmlClass(name="D", attributes=[], methods=[]),
         ]
-        positions = exporter._calculate_positions(classes)
+        class_sizes = exporter._calculate_class_sizes(classes)
+        positions = exporter._calculate_positions(classes, class_sizes)
 
         assert positions["A"] == (50, 50)
         assert positions["B"] == (280, 50)
