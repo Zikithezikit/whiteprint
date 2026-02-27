@@ -196,3 +196,85 @@ class TestRelationshipDetector:
 
         assoc = next((r for r in relationships if r.type == RelationshipType.ASSOCIATION), None)
         assert assoc is not None
+
+    def test_detect_optional_type(self):
+        """Test detecting aggregation from Optional[T] type."""
+        classes = [
+            UmlClass(name="Animal", attributes=[], methods=[]),
+            UmlClass(
+                name="Owner",
+                attributes=[
+                    UmlAttribute(name="pet", type="Optional[Animal]", visibility=Visibility.PUBLIC)
+                ],
+                methods=[],
+            ),
+        ]
+        detector = RelationshipDetector(language="python")
+        relationships = detector.detect(classes)
+
+        agg = next((r for r in relationships if r.type == RelationshipType.AGGREGATION), None)
+        assert agg is not None
+        assert agg.source == "Owner"
+        assert agg.target == "Animal"
+
+    def test_detect_list_type(self):
+        """Test detecting composition from List[T] type."""
+        classes = [
+            UmlClass(name="Item", attributes=[], methods=[]),
+            UmlClass(
+                name="Inventory",
+                attributes=[
+                    UmlAttribute(name="items", type="List[Item]", visibility=Visibility.PUBLIC)
+                ],
+                methods=[],
+            ),
+        ]
+        detector = RelationshipDetector(language="python")
+        relationships = detector.detect(classes)
+
+        comp = next((r for r in relationships if r.type == RelationshipType.COMPOSITION), None)
+        assert comp is not None
+        assert comp.source == "Inventory"
+        assert comp.target == "Item"
+
+    def test_detect_dict_type(self):
+        """Test detecting composition from Dict[K,V] type."""
+        classes = [
+            UmlClass(name="Value", attributes=[], methods=[]),
+            UmlClass(
+                name="Cache",
+                attributes=[
+                    UmlAttribute(name="data", type="Dict[str, Value]", visibility=Visibility.PUBLIC)
+                ],
+                methods=[],
+            ),
+        ]
+        detector = RelationshipDetector(language="python")
+        relationships = detector.detect(classes)
+
+        comp = next((r for r in relationships if r.type == RelationshipType.COMPOSITION), None)
+        assert comp is not None
+        assert comp.target == "Value"
+
+    def test_detect_generic_method_param(self):
+        """Test detecting association from method parameters with generic types."""
+        classes = [
+            UmlClass(name="Handler", attributes=[], methods=[]),
+            UmlClass(
+                name="Service",
+                attributes=[],
+                methods=[
+                    UmlMethod(
+                        name="process",
+                        parameters=[("handler", "Optional[Handler]")],
+                        return_type="",
+                    )
+                ],
+            ),
+        ]
+        detector = RelationshipDetector(language="python")
+        relationships = detector.detect(classes)
+
+        assoc = next((r for r in relationships if r.type == RelationshipType.ASSOCIATION), None)
+        assert assoc is not None
+        assert assoc.target == "Handler"

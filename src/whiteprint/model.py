@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
+from typing import ClassVar, Optional
 
 
 class Visibility(Enum):
@@ -95,17 +95,47 @@ class UmlRelationship:
 class RelationshipDetector:
     """Detects relationships between UML classes based on type annotations."""
 
-    OPTIONAL_TYPES = {
+    OPTIONAL_TYPES: ClassVar[dict[str, set[str]]] = {
         "python": {"Optional", "None", "Any"},
         "rust": {"Option", "Box", "Vec", "Rc", "Arc"},
+    }
+
+    GENERIC_CONTAINERS: ClassVar[dict[str, set[str]]] = {
+        "python": {
+            "Optional",
+            "List",
+            "Dict",
+            "Set",
+            "FrozenSet",
+            "Tuple",
+            "Sequence",
+            "Mapping",
+            "Iterable",
+        },
+        "rust": {"Option", "Box", "Vec", "Rc", "Arc", "HashMap", "HashSet"},
     }
 
     def __init__(self, language: str = "python"):
         self.language = language
 
-    def detect(
-        self, classes: list[UmlClass]
-    ) -> list[UmlRelationship]:
+    def _extract_inner_type(self, type_str: str) -> str:
+        """Extract the inner type from generic types like Optional[T], List[T], Dict[K,V]."""
+        if "[" not in type_str:
+            return type_str
+
+        containers = self.GENERIC_CONTAINERS.get(self.language, set())
+
+        for container in containers:
+            if type_str.startswith(f"{container}["):
+                inner = type_str[len(container) + 1 : -1]
+                if "," in inner:
+                    parts = inner.split(",")
+                    inner = parts[-1].strip() if container == "Dict" else parts[0].strip()
+                return inner.strip()
+
+        return type_str
+
+    def detect(self, classes: list[UmlClass]) -> list[UmlRelationship]:
         relationships = []
         class_names = {c.name for c in classes}
 
@@ -124,31 +154,33 @@ class RelationshipDetector:
                     )
 
             for attr in cls.attributes:
-                if attr.type in class_names:
+                inner_type = self._extract_inner_type(attr.type)
+                if inner_type in class_names:
                     rel_type = self._classify_attribute(attr.type, classes)
                     relationships.append(
                         UmlRelationship(
                             source=cls.name,
-                            target=attr.type,
+                            target=inner_type,
                             type=rel_type,
                         )
                     )
 
             for method in cls.methods:
                 for param_type in method.parameters:
-                    if param_type[1] in class_names:
+                    inner_type = self._extract_inner_type(param_type[1])
+                    if inner_type in class_names:
                         relationships.append(
                             UmlRelationship(
                                 source=cls.name,
-                                target=param_type[1],
+                                target=inner_type,
                                 type=RelationshipType.ASSOCIATION,
                             )
                         )
 
         return relationships
 
-    def _classify_attribute(self, attr_type: str, classes: list[UmlClass]) -> RelationshipType:
-        attr_type_clean = attr_type.replace("?", "").replace("'", "").split("<")[0]
+    def _classify_attribute(self, attr_type: str, _classes: list[UmlClass]) -> RelationshipType:
+        attr_type_clean = attr_type.replace("?", "").replace("'", "").split("[")[0]
 
         if attr_type_clean in self.OPTIONAL_TYPES.get(self.language, set()):
             return RelationshipType.AGGREGATION
