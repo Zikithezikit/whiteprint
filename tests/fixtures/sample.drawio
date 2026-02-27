@@ -1,0 +1,64 @@
+<mxfile host="Drawpyo" modified="2026-02-27T19:08:39" agent="Python 3.12, Drawpyo 0.23" version="21.6.5" type="device">
+  <diagram name="Page-1" id="123989016587552">
+    <mxGraphModel dx="2037" dy="830" grid="1" gridSize="10" guides="1" toolTips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="123989014961648" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="50" width="180" height="110" as="geometry" />
+</mxCell>
+        <mxCell id="123989016152640" value="Animal" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="50" width="180" height="30" as="geometry" />
+</mxCell>
+        <mxCell id="123989015713824" value="+ name: str\n+ age: int" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="80" width="180" height="40" as="geometry" />
+</mxCell>
+        <mxCell id="123989015714544" value="- __init__(self: Any, name: Any): None\n+ speak(self: Any): str" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="120" width="180" height="40" as="geometry" />
+</mxCell>
+        <mxCell id="123989015714736" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="280" y="50" width="180" height="90" as="geometry" />
+</mxCell>
+        <mxCell id="123989015714928" value="Dog" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="280" y="50" width="180" height="30" as="geometry" />
+</mxCell>
+        <mxCell id="123989015715072" value="+ breed: str" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="280" y="80" width="180" height="20" as="geometry" />
+</mxCell>
+        <mxCell id="123989015715216" value="- __init__(self: Any, name: Any, breed: Any): None\n+ speak(self: Any): str" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="280" y="100" width="180" height="40" as="geometry" />
+</mxCell>
+        <mxCell id="123989015715360" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="510" y="50" width="180" height="90" as="geometry" />
+</mxCell>
+        <mxCell id="123989015715504" value="Cat" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="510" y="50" width="180" height="30" as="geometry" />
+</mxCell>
+        <mxCell id="123989015715648" value="+ indoor: bool" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="510" y="80" width="180" height="20" as="geometry" />
+</mxCell>
+        <mxCell id="123989015715792" value="- __init__(self: Any, name: Any, indoor: Any): None\n+ speak(self: Any): str" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="510" y="100" width="180" height="40" as="geometry" />
+</mxCell>
+        <mxCell id="123989015715984" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="220" width="180" height="110" as="geometry" />
+</mxCell>
+        <mxCell id="123989015716176" value="Owner" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="220" width="180" height="30" as="geometry" />
+</mxCell>
+        <mxCell id="123989015716368" value="+ name: str\n+ pet: Optional[...]" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="250" width="180" height="40" as="geometry" />
+</mxCell>
+        <mxCell id="123989015716512" value="- __init__(self: Any, name: Any): None\n+ adopt(self: Any, animal: Any): None" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="290" width="180" height="40" as="geometry" />
+</mxCell>
+        <mxCell id="123989015716656" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;endArrow=block;endFill=0;strokeWidth=1;" edge="1" parent="1" source="1" target="1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+        <mxCell id="123989016152352" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;rounded=0;jettySize=auto;endArrow=block;endFill=0;strokeWidth=1;" edge="1" parent="1" source="1" target="1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

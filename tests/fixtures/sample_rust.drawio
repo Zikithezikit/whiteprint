@@ -1,0 +1,52 @@
+<mxfile host="Drawpyo" modified="2026-02-27T19:08:39" agent="Python 3.12, Drawpyo 0.23" version="21.6.5" type="device">
+  <diagram name="Page-1" id="137855050476304">
+    <mxGraphModel dx="2037" dy="830" grid="1" gridSize="10" guides="1" toolTips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="137855049178704" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="50" width="180" height="70" as="geometry" />
+</mxCell>
+        <mxCell id="137855063813360" value="Animal" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="50" width="180" height="30" as="geometry" />
+</mxCell>
+        <mxCell id="137855049178896" value="+ name: String\n+ age: u32" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="80" width="180" height="40" as="geometry" />
+</mxCell>
+        <mxCell id="137855049178944" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="280" y="50" width="180" height="70" as="geometry" />
+</mxCell>
+        <mxCell id="137855049179472" value="Dog" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="280" y="50" width="180" height="30" as="geometry" />
+</mxCell>
+        <mxCell id="137855049177984" value="+ breed: String" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="280" y="80" width="180" height="20" as="geometry" />
+</mxCell>
+        <mxCell id="137855049178080" value="+ make_sound(): String" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="280" y="100" width="180" height="20" as="geometry" />
+</mxCell>
+        <mxCell id="137855049177888" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="510" y="50" width="180" height="50" as="geometry" />
+</mxCell>
+        <mxCell id="137855049179520" value="Cat" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="510" y="50" width="180" height="30" as="geometry" />
+</mxCell>
+        <mxCell id="137855049179760" value="+ indoor: bool" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="510" y="80" width="180" height="20" as="geometry" />
+</mxCell>
+        <mxCell id="137855049179904" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="220" width="180" height="50" as="geometry" />
+</mxCell>
+        <mxCell id="137855049180048" value="&lt;&lt;interface&gt;&gt;\nMakeSound" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="220" width="180" height="30" as="geometry" />
+</mxCell>
+        <mxCell id="137855049180192" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="50" y="250" width="180" height="20" as="geometry" />
+</mxCell>
+        <mxCell id="137855049180336" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;dashed=1;dashPattern=8 8;rounded=0;jettySize=auto;endArrow=block;endFill=0;strokeWidth=1;" edge="1" parent="1" source="1" target="1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
