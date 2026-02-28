@@ -1,50 +1,67 @@
-<mxfile host="Drawpyo" modified="2026-02-27T21:23:07" agent="Python 3.12, Drawpyo 0.23" version="21.6.5" type="device">
-  <diagram name="Page-1" id="136881705096048">
+<mxfile host="Drawpyo" modified="2026-02-28T19:46:18" agent="Python 3.12, Drawpyo 0.23" version="21.6.5" type="device">
+  <diagram name="Page-1" id="129875812590912">
     <mxGraphModel dx="2037" dy="830" grid="1" gridSize="10" guides="1" toolTips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="136881702052176" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="50" y="50" width="180" height="70" as="geometry" />
+        <mxCell id="129875812591056" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="80" y="80" width="180" height="70" as="geometry" />
 </mxCell>
-        <mxCell id="136881703512896" value="Animal" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="50" y="50" width="180" height="30" as="geometry" />
+        <mxCell id="129875816146336" value="Animal" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="80" y="80" width="180" height="30" as="geometry" />
 </mxCell>
-        <mxCell id="136881702052128" value="+ name: String&#xa;+ age: u32" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="50" y="80" width="180" height="40" as="geometry" />
+        <mxCell id="129875812591632" value="+ name: String&#xa;+ age: u32" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="80" y="110" width="180" height="40" as="geometry" />
 </mxCell>
-        <mxCell id="136881702052464" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="280" y="50" width="196" height="70" as="geometry" />
+        <mxCell id="129875812591680" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="370" y="80" width="196" height="70" as="geometry" />
 </mxCell>
-        <mxCell id="136881702052608" value="Dog" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="280" y="50" width="196" height="30" as="geometry" />
+        <mxCell id="129875812591824" value="Dog" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="370" y="80" width="196" height="30" as="geometry" />
 </mxCell>
-        <mxCell id="136881702052896" value="+ breed: String" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="280" y="80" width="196" height="20" as="geometry" />
+        <mxCell id="129875812591968" value="+ breed: String" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="370" y="110" width="196" height="20" as="geometry" />
 </mxCell>
-        <mxCell id="136881702052656" value="+ make_sound(): String" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="280" y="100" width="196" height="20" as="geometry" />
+        <mxCell id="129875812592112" value="+ make_sound(): String" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="370" y="130" width="196" height="20" as="geometry" />
 </mxCell>
-        <mxCell id="136881702051984" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="526" y="50" width="180" height="50" as="geometry" />
+        <mxCell id="129875812590624" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="676" y="80" width="180" height="50" as="geometry" />
 </mxCell>
-        <mxCell id="136881702052944" value="Cat" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="526" y="50" width="180" height="30" as="geometry" />
+        <mxCell id="129875812592304" value="Cat" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="676" y="80" width="180" height="30" as="geometry" />
 </mxCell>
-        <mxCell id="136881702053040" value="+ indoor: bool" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="526" y="80" width="180" height="20" as="geometry" />
+        <mxCell id="129875812592448" value="+ indoor: bool" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="676" y="110" width="180" height="20" as="geometry" />
 </mxCell>
-        <mxCell id="136881702053232" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="50" y="220" width="180" height="50" as="geometry" />
+        <mxCell id="129875812592592" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="80" y="250" width="180" height="50" as="geometry" />
 </mxCell>
-        <mxCell id="136881702053376" value="&lt;&lt;interface&gt;&gt;&#xa;MakeSound" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="50" y="220" width="180" height="30" as="geometry" />
+        <mxCell id="129875812592736" value="&lt;&lt;interface&gt;&gt;&#xa;MakeSound" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="80" y="250" width="180" height="30" as="geometry" />
 </mxCell>
-        <mxCell id="136881702053520" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
-  <mxGeometry x="50" y="250" width="180" height="20" as="geometry" />
+        <mxCell id="129875812592880" value="" style="whiteSpace=wrap;rounded=0;dashed=0;" vertex="1" parent="1">
+  <mxGeometry x="80" y="280" width="180" height="20" as="geometry" />
 </mxCell>
-        <mxCell id="136881702053664" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;dashed=1;dashPattern=8 8;rounded=0;jettySize=auto;endArrow=block;endFill=0;strokeWidth=1;" edge="1" parent="1" source="1" target="1">
-  <mxGeometry relative="1" as="geometry" />
+        <mxCell id="129875812592976" style="dashed=1;dashPattern=8 8;rounded=0;jettySize=auto;endArrow=block;endFill=0;strokeWidth=1;" edge="1" parent="1" source="129875812591680" target="129875812592592">
+  <mxGeometry relative="1" as="geometry">
+<Array as="points">
+<mxPoint x="360" y="100" />
+<mxPoint x="340" y="100" />
+<mxPoint x="320" y="100" />
+<mxPoint x="300" y="100" />
+<mxPoint x="280" y="100" />
+<mxPoint x="280" y="120" />
+<mxPoint x="280" y="140" />
+<mxPoint x="280" y="160" />
+<mxPoint x="260" y="160" />
+<mxPoint x="260" y="180" />
+<mxPoint x="260" y="200" />
+<mxPoint x="260" y="220" />
+<mxPoint x="260" y="240" />
+<mxPoint x="260" y="260" />
+</Array>
+</mxGeometry>
 </mxCell>
       </root>
     </mxGraphModel>

@@ -75,7 +75,7 @@ class TestDrawIoExporter:
             assert output_path.exists()
 
     def test_calculate_positions(self):
-        """Test position calculation for grid layout."""
+        """Test position calculation for grid layout with collision detection."""
         exporter = DrawIoExporter()
         classes = [
             UmlClass(name="A", attributes=[], methods=[]),
@@ -86,10 +86,25 @@ class TestDrawIoExporter:
         class_sizes = exporter._calculate_class_sizes(classes)
         positions = exporter._calculate_positions(classes, class_sizes)
 
-        assert positions["A"] == (50, 50)
-        assert positions["B"] == (280, 50)
-        assert positions["C"] == (510, 50)
-        assert positions["D"] == (50, 220)
+        assert positions["A"][0] == 50
+        assert positions["A"][1] == 50
+        assert "B" in positions
+        assert "C" in positions
+        assert "D" in positions
+
+        boxes = []
+        for name, pos in positions.items():
+            width, height = class_sizes[name]
+            boxes.append((pos[0], pos[1], width, height))
+
+        for i, box1 in enumerate(boxes):
+            for j, box2 in enumerate(boxes):
+                if i != j:
+                    x1, y1, w1, h1 = box1
+                    x2, y2, w2, h2 = box2
+                    assert not (x1 < x2 + w2 and x1 + w1 > x2 and y1 < y2 + h2 and y1 + h1 > y2), (
+                        f"Boxes {i} and {j} overlap"
+                    )
 
     def test_export_interface(self):
         """Test exporting interface class."""
